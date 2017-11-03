@@ -2,6 +2,7 @@
  * Created by davydeng on 2017/10/24
  * @Description
  */
+import '../css/style.css';
 
 import {AppRouter} from './app.router.js';
 app.config(AppRouter);

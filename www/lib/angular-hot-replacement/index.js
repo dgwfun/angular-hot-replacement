@@ -3,13 +3,13 @@
  * webpack hot Replacement for angular 1.x with es6 style project
  */
 
-const ctrlReg = /\.controller\s*\(\s*['"][\w]+['"]\s*,\s*(\w+)?\s*\)/g;
-const serviceReg = /\.service\s*\(\s*['"][\w]+['"]\s*,\s*(\w+)?\s*\)/g;
-const directiveReg = /\.directive\s*\(\s*['"](\w+)['"]\s*,\s*(\w+)?\s*\)/g;
-const exportReg = /export\s*\{\s*(\w+)?\s*[\,]?\s*(\w+)?\s*\}/g;
-const routerReg = /state[\s\(\:]*?['"](\w+)?['"][\s\S]*?template[\s\S]*?require\(['"]([\s\S]*?)['"]\)/g;
+const ctrlReg = /\.controller\s*\(\s*['"][0-9a-zA-Z_]+['"]\s*,\s*([0-9a-zA-Z_]+)?\s*\)/g;
+const serviceReg = /\.service\s*\(\s*['"][0-9a-zA-Z_]+['"]\s*,\s*([0-9a-zA-Z_]+)?\s*\)/g;
+const directiveReg = /\.directive\s*\(\s*['"]([0-9a-zA-Z_]+)['"]\s*,\s*([0-9a-zA-Z_]+)?\s*\)/g;
+const exportReg = /export\s*\{\s*([0-9a-zA-Z_]+)?\s*[\,]?\s*([0-9a-zA-Z_]+)?\s*\}/g;
+const routerReg = /state[\s\(\:]*?['"]([0-9a-zA-Z_]+)?['"][\s\S]*?template[\s\S]*?require\(['"]([\s\S]*?)['"]\)/g;
 const cacheReg = /\$ionicConfigProvider.views.maxCache\(\s*(\w+)\s*\)/g;
-const directiveInfoReg = /(function|var|let)\s*(\w+)\s*(\=\s*\(\s*\)\s*\=\>|\=\s*function\s*\(\s*\)|\(\s*\))[return\{\s\r\n]*?restrict\s*\:\s*['"][EACM]+['"][\s\S]*?template\s*\:\s*require\s*\(\s*['"]([\s\S]*?)['"]\s*\)/g;
+const directiveInfoReg = /(function|var|let)\s*([0-9a-zA-Z_]+)\s*(\=\s*\(\s*\)\s*\=\>|\=\s*function\s*\(\s*\)|\(\s*\))[return\{\s\r\n]*?restrict\s*\:\s*['"][EACM]+['"][\s\S]*?template\s*\:\s*require\s*\(\s*['"]([\s\S]*?)['"]\s*\)/g;
 
 var ctrl_arr = [];
 var service_arr = [];
