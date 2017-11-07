@@ -69,7 +69,12 @@ module.exports = function (param) {
       hotOnly: true,
       contentBase: path.join(__dirname, "www"),
       historyApiFallback: true,
-      port: 8080 // 端口号
+      port: 8080, // 端口号
+      watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 500,
+        poll: 1000
+      }
     }
   }
 };
