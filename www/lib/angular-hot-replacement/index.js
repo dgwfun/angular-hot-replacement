@@ -86,19 +86,19 @@ module.exports = function(source) {
       var handle = handles[i];
       switch (handle.tp){
         case 'controller':
-          source += "refreshController('"+handle.name+"',"+handle.cls+")\n";
+          source += "refreshController('"+handle.name+"',__webpack_require__(deps[0])."+handle.cls+")\n";
           break;
         case 'service':
-          source += "refreshService('"+handle.name+"',"+handle.cls+")\n";
+          source += "refreshService('"+handle.name+"',__webpack_require__(deps[0])."+handle.cls+")\n";
           break;
         case 'routerHtml':
-          source += "refreshHtml(deps[0],'"+handle.name+"')\n";
+          source += "refreshHtml(deps[0],'"+handle.name+"',__webpack_require__(deps[0]))\n";
           break;
         case 'directive':
-          source += "refreshDirective('"+handle.name+"Directive',"+handle.cls+"())\n";
+          source += "refreshDirective('"+handle.name+"Directive',__webpack_require__(deps[0])."+handle.cls+"())\n";
           break;
         case 'directiveHtml':
-          source += "refreshDirectiveHtml(deps[0],'"+handle.name+"')\n";
+          source += "refreshDirectiveHtml(deps[0],'"+handle.name+"',__webpack_require__(deps[0]))\n";
           break;
         default:
           break;
@@ -147,6 +147,7 @@ function refreshController() {
     " if(window && window.controllerProvider) {",
     "   window.controllerProvider.register(name,cls);",
     "   reloadPage();",
+    "   console.log('[HMR] refreshController:'+name);",
     " }",
     "}\n"].join("\n");
 }
@@ -165,12 +166,13 @@ function refreshService() {
     "   }",
     " });",
     " reloadPage();",
+    " console.log('[HMR] refreshService:'+name);",
     "}\n"].join("\n");
 }
 
 function refreshHtml() {
   return [
-    "function refreshHtml(file,state) {",
+    "function refreshHtml(file,state,cxt) {",
     " var $injector = window.injector;" ,
     " if(!$injector || !$injector.has('$state')) {",
     "   return;",
@@ -181,8 +183,9 @@ function refreshHtml() {
     " }",
     "   var handleState = $state.get(state);",
     "   if(handleState) {",
-    "     handleState.template = __webpack_require__(file);",
+    "     handleState.template = cxt;",
     "     reloadPage();",
+    "     console.log('[HMR] refreshHtml:'+file);",
     "   }",
     "}\n"].join("\n");
 }
@@ -203,12 +206,13 @@ function refreshDirective() {
     "   });",
     " }",
     " reloadPage();",
+    " console.log('[HMR] refreshDirective:'+name);",
     "}\n"].join("\n");
 }
 
 function refreshDirectiveHtml() {
   return [
-    "function refreshDirectiveHtml(file,name) {",
+    "function refreshDirectiveHtml(file,name,cxt) {",
     " var $injector = window.injector;" ,
     " if(!$injector || !$injector.has(name)) {",
     "   return;",
@@ -217,14 +221,10 @@ function refreshDirectiveHtml() {
     " for (var i = 0;i<directives.length;i++) {",
     "   var directive = directives[i];",
     "   if(directive){",
-    "     directive.template = __webpack_require__(file);",
+    "     directive.template = cxt;",
     "   }",
     " }",
     " reloadPage();",
+    " console.log('[HMR] refreshDirectiveHtml:'+file);",
     "}\n"].join("\n");
 }
-
-
-
-
-
